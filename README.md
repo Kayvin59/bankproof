@@ -16,10 +16,10 @@ BankProof is a web application that allows users to generate a proof of their ba
 
 ## Progress
 
-- [] Setup Noir
-- [] Write circuit
-- [] Mock data
-- [] Setup Next Js, Noir Js
+- [x] Setup Noir
+- [x] Write circuit
+- [x] Mock data
+- [x] Setup Next Js, Noir Js
 - [] Circuit interaction
 
 ## Contributing
