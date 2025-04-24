@@ -12,7 +12,7 @@ export default function Header() {
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2">
           <nav className="flex items-center">
-            <Button size="sm">Connect Wallet</Button>
+            <Button size="sm" disabled>Connect Wallet</Button>
           </nav>
         </div>
       </div>
