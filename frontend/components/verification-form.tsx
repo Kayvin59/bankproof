@@ -7,6 +7,9 @@ import { Card } from "../components/ui/card"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 
+import { UltraHonkBackend } from '@aztec/bb.js'
+import { Noir } from '@noir-lang/noir_js'
+
 export default function VerificationForm() {
   const [threshold, setThreshold] = useState<number>(100)
   const [result, setResult] = useState<string | null>(null)
@@ -18,31 +21,43 @@ export default function VerificationForm() {
     setResult(null)
 
     try {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500))
 
       // Mock PSD2 API response
       const balance = 500
 
-      // Mock circuit execution and proof generation
-      // In a real implementation, you would use:
-      // const circuit = require('../public/circuit.json');
-      // const backend = new UltraHonkBackend(circuit.bytecode);
-      // const noir = new Noir(circuit);
-      // const inputs = { balance, threshold };
-      // const { witness } = await noir.execute(inputs);
-      // const proof = await backend.generateProof(witness);
-      // const isValid = await backend.verifyProof(proof);
+      // Load the compiled Noir circuit
+      const circuit = require('../public/bankproof.json');
+      const backend = new UltraHonkBackend(circuit.bytecode);
+      const noir = new Noir(circuit);
 
-      // Simulate verification result based on threshold
-      const isValid = threshold <= balance
+      // Prepare inputs for the circuit
+      const inputs = { balance, threshold };
 
-      setIsSuccess(isValid)
-      setResult(
-        isValid
-          ? "Funds verified! Balance meets the required threshold."
-          : "Verification failed. Balance does not meet the required threshold.",
-      )
+      // Execute the circuit to generate a witness
+      const { witness, returnValue } = await noir.execute(inputs);
+      console.log("witness:", witness)
+      console.log("Circuit output: ", returnValue);
+
+      // Generate the zero-knowledge proof
+      const proof = await backend.generateProof(witness);
+      console.log("proof:", proof)
+
+      // Verify the proof
+      const isValid = await backend.verifyProof(proof);
+      console.log("Proof verification:", isValid)
+      
+      // Determine the result based on both isValid and returnValue
+      if (isValid && returnValue) {
+        setIsSuccess(true);
+        setResult("Funds verified! Balance meets the required threshold.");
+      } else if (isValid && !returnValue) {
+        setIsSuccess(false);
+        setResult("Verification failed. Balance does not meet the required threshold.");
+      } else {
+        setIsSuccess(false);
+        setResult("Error: Proof verification failed.");
+      }
+
     } catch (error) {
       console.error("Verification error:", error)
       setIsSuccess(false)
