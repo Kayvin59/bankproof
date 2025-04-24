@@ -1,6 +1,6 @@
 # BankProof
 
-BankProof is a web application that allows users to generate a proof of their bank account details without revealing the actual details. The proof is generated using a unique hash and can be shared with third parties for verification.
+BankProof is a web application that allows users to generate a proof of their bank account details without revealing sensitive data. The proof is generated using a unique hash and can be shared with third parties for verification.
 
 
 ## Features
@@ -20,7 +20,7 @@ BankProof is a web application that allows users to generate a proof of their ba
 - [x] Write circuit
 - [x] Mock data
 - [x] Setup Next Js, Noir Js
-- [] Circuit interaction
+- [x] Circuit interaction
 
 ## Contributing
 
