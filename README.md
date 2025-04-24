@@ -21,6 +21,8 @@ BankProof is a web application that allows users to generate a proof of their ba
 - [x] Mock data
 - [x] Setup Next Js, Noir Js
 - [x] Circuit interaction
+- [] Aztec contract
+- [] Open banking API
 
 ## Contributing
 
